@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, AppBar, Typography, Grow, Grid2 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -23,10 +23,11 @@ const Item = styled(Paper)(({ theme }) => ({
 const App = () => {
   const dispatch = useDispatch();
   const isLoading = false;
+  const [currentId, setCurrentId] = useState(null);
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [dispatch, currentId]);
 
   return isLoading ? (
     <CircularProgress />
@@ -71,13 +72,13 @@ const App = () => {
             <Grid2 size={{ xs: 12, sm: 7 }}>
               <Item
                 sx={{ textAlign: "left", boxShadow: "none", color: "black" }}>
-                <Posts />
+                <Posts setCurrentId={setCurrentId} />
               </Item>
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 4 }}>
               <Item
                 sx={{ textAlign: "left", boxShadow: "none", color: "black" }}>
-                <Form />
+                <Form currentId={currentId} setCurrentId={setCurrentId} />
               </Item>
             </Grid2>
           </Grid2>

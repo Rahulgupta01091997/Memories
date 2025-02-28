@@ -16,14 +16,14 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-const Posts = () => {
+const Posts = ({ setCurrentId }) => {
   const posts = useSelector((state) => state.posts);
   return posts.length > 0 ? (
     <Grid container alignItems="stretch" spacing={3}>
       {posts.map((post) => (
         <Grid key={post._id} size={{ xs: 12, sm: 6 }}>
           <Item sx={{ borderRadius: "20px" }}>
-            <Post post={post} />
+            <Post post={post} setCurrentId={setCurrentId} />
           </Item>
         </Grid>
       ))}

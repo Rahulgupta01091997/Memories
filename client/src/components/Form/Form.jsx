@@ -1,21 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Paper } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
 
-const Form = () => {
-  const clear = () => {};
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
     message: "",
     tags: "",
   });
+  const post = useSelector((state) =>
+    state.posts.find((post) => currentId === post._id)
+  );
   const dispatch = useDispatch();
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({ creator: "", title: "", message: "", tags: "" });
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(createPost(postData));
+    if (currentId === null) {
+      dispatch(createPost(postData));
+    } else {
+      dispatch(updatePost(currentId, postData));
+    }
+    clear();
   };
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
   return (
     <Paper sx={{ padding: 2 }}>
@@ -28,7 +43,9 @@ const Form = () => {
           flexWrap: "wrap",
           justifyContent: "center",
         }}>
-        <Typography variant="h6">Creating a memory</Typography>
+        <Typography variant="h6">
+          {currentId ? `Editing a memory` : "Creating a memory"}
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"

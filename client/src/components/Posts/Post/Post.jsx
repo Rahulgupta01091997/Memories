@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   return (
     <Card
       sx={{
@@ -36,7 +36,12 @@ const Post = ({ post }) => {
           </Typography>
         </div>
         <div style={{ width: "20%", textAlign: "center" }}>
-          <Button style={{ color: "black" }} size="small" onClick={() => {}}>
+          <Button
+            style={{ color: "black" }}
+            size="small"
+            onClick={() => {
+              setCurrentId(post._id);
+            }}>
             <MoreHorizIcon fontSize="medium" />
           </Button>
         </div>
@@ -51,6 +56,12 @@ const Post = ({ post }) => {
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
+      <Typography
+        style={{ textAlign: "left", wordWrap: "break-word" }}
+        variant="h5"
+        gutterBottom>
+        {post.title}
+      </Typography>
       <CardContent sx={{ padding: "0px", marginBottom: "10px" }}>
         <Typography
           style={{ textAlign: "left", wordWrap: "break-word" }}
