@@ -6,12 +6,12 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../../actions/posts";
+import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
@@ -68,8 +68,9 @@ const Post = ({ post, setCurrentId }) => {
       <CardContent sx={{ padding: "0px", marginBottom: "10px" }}>
         <Typography
           style={{ textAlign: "left", wordWrap: "break-word" }}
-          variant="h5"
-          gutterBottom>
+          variant="body2"
+          color="textSecondary"
+          component="p">
           {post.message}
         </Typography>
       </CardContent>
@@ -79,10 +80,18 @@ const Post = ({ post, setCurrentId }) => {
           display: "flex",
           justifyContent: "space-between",
         }}>
-        <Button size="small" color="primary" onClick={() => {}}>
-          <ThumbUpAltIcon fontSize="small" />
-          Like
-          {post.likeCount}
+        <Button
+          size="small"
+          color="primary"
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+          onClick={() => {
+            dispatch(likePost(post._id));
+          }}>
+          <FavoriteBorderIcon fontSize="small" /> &nbsp; {post.likeCount}
         </Button>
         <Button
           size="small"
